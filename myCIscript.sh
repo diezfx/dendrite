@@ -2,16 +2,15 @@
 
 REPO="diezfx"
 
-eval $(minikube -p minikube docker-env)
 # build the build image
-docker build -f build/docker/Dockerfile -t ${REPO}/dendrite:latest .
+docker build -f build/docker/Dockerfile -t ${REPO}/dendrite-build:latest .
 
 #compile and build the service
 docker build -t ${REPO}/dendrite:monolith \
          --build-arg component=dendrite-monolith-server \
          -f build/docker/Dockerfile.component .
 # push to repository
-# docker push ${REPO}/dendrite:monolith
+docker push ${REPO}/dendrite:monolith
 
 # create secrets
 # may need a better mount
