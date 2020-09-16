@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dendrite-deployment
+  labels:
+    app: dendrite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dendrite
+  template:
+    metadata:
+      labels:
+        app: dendrite
+    spec:
+      containers:
+        - name: dendrite
+          image: diezfx/dendrite:monolith
+          command:
+            [
+              "/usr/bin/dendrite-monolith-server",
+              "--config=config/dendrite.yaml",
+              "--tls-cert=certs/server.crt",
+              "--tls-key=certs/server.key",
+            ]
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /etc/dendrite/certs
+            - name: config-volume
+              mountPath: /etc/dendrite/config
+          ports:
+            - containerPort: 8008
+      volumes:
+        - name: config-volume
+          configMap:
+            name: dendrite-config
+        - name: secret-volume
+          secret:
+            secretName: dendrite-secret

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dendrite-service
+spec:
+  selector:
+    app: dendrite
+  ports:
+    - protocol: TCP
+      port: 8008
+      targetPort: 8008

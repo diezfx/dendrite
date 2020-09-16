@@ -1,4 +1,4 @@
-FROM matrixdotorg/dendrite:latest AS base
+FROM diezfx/dendrite:latest AS base
 
 FROM alpine:latest
 
